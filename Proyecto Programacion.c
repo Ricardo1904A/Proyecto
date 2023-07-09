@@ -83,3 +83,49 @@ void Agregar_Plato(Plato Platos[], int *Numero_Platos)
 
     printf("El plato ha sido agregado al menú correctamente.\n");
 }
+
+// Función para calcular los ingredientes utilizados en base a los platos vendidos
+void Calcular_Ingredientes_Utilizados(Plato Platos[], int Numero_Platos, int Platos_Vendidos[])
+{
+    FILE *archivo;
+    archivo = fopen("Ingredientes_gastados.txt", "w");
+    // Verificamos si el archivo se pudo abrir correctamente. Si no, mostramos un mensaje de error y salimos de la función.
+    if (archivo == NULL)
+    {
+        printf("No se pudo abrir el archivo.\n");
+        return;
+    }
+
+    // Calcular los ingredientes utilizados y guardarlos en el archivo "Ingredientes_gastados.txt"
+    for (int i = 0; i < Numero_Platos; i++)
+    {
+        // Utilizamos fprintf para escribir la cabecera de "Ingredientes gastados para [nombre del plato]: ".
+        fprintf(archivo, "Ingredientes gastados para %s: ", Platos[i].Nombre);
+        // Creamos una copia de los ingredientes del plato en la variable Ingredientes y utilizamos strtok para dividirlos por comas.
+        char Ingredientes[100];
+        strcpy(Ingredientes, Platos[i].Ingredientes);
+        char *token = strtok(Ingredientes, ",");
+        // utilizamos strtol para convertir el token (que representa la cantidad de ingredientes) en un valor entero, que almacenamos en la variable cantidad
+        while (token != NULL)
+        {
+            char *cantidadPtr;
+            int cantidad = strtol(token, &cantidadPtr, 10);
+
+            char *Nombre_Ingrediente = cantidadPtr + 1;
+            int Ingredientes_Utilizados = cantidad * Platos_Vendidos[i];
+
+            fprintf(archivo, "%d %s", Ingredientes_Utilizados, Nombre_Ingrediente);
+            // utilizo la variable token para dividir la cadena de ingredientes en diferentes partes, separadas por comas.
+            // La función strtok se utiliza para dividir una cadena en "tokens" o segmentos más pequeños, utilizando un delimitador específico.
+
+            token = strtok(NULL, ",");
+
+            if (token != NULL)
+            {
+                fprintf(archivo, "; ");
+            }
+        }
+    }
+
+    fclose(archivo);
+}
