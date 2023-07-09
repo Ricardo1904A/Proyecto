@@ -145,3 +145,17 @@ void calcularRecaudacion(Plato platos[], int numPlatos, int platosVendidos[]) {
     
     fclose(archivo); // Cerrar el archivo
 }
+int main() {
+    Plato platos[100] = {
+        {"salchipapa", "2 papas, 1 salchicha", 1.50},
+        {"papipollo", "2 papas, 1 presa de pollo", 2.00},
+        {"hot dogs", "1 pan para hot dogs, 1 salchicha", 1.25},
+        {"hamburguesas", "1 hojas de lechuga, 1 tira de queso, 1 carne, 1 pan de hamburguesa", 2.50},
+        {"papi carne", "2 papas, 1 carne", 1.75},
+        {"papi huevo", "2 papas, 1 huevo", 1.25}
+    };
+    
+    int numPlatos = 6;
+    
+    guardarPlatos(platos, numPlatos); // Guardar los platos iniciales en el archivo
+    guardarIngredientes(platos, numPlatos); // Guardar los ingredientes iniciales en el archivo
