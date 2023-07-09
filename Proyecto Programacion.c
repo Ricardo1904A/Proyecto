@@ -159,3 +159,20 @@ int main() {
     
     guardarPlatos(platos, numPlatos); // Guardar los platos iniciales en el archivo
     guardarIngredientes(platos, numPlatos); // Guardar los ingredientes iniciales en el archivo
+    int opcion;
+    int platosVendidos[100];
+    
+    printf("¡Bienvenido al Restaurante!\n");
+    printf("Aquí está nuestra carta de platos:\n");
+    for (int i = 0; i < numPlatos; i++) {
+        printf("%d. %s - %.2f\n", i+1, platos[i].nombre, platos[i].precio);
+    }
+    
+    do {
+        printf("\n--- Menú ---\n");
+        printf("1. Calcular ingredientes utilizados en base a los platos vendidos\n");
+        printf("2. Calcular recaudación por plato vendido\n");
+        printf("3. Agregar un nuevo plato\n");
+        printf("4. Salir\n");
+        printf("Ingrese su opción: ");
+        scanf("%d", &opcion);
