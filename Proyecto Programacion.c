@@ -51,3 +51,35 @@ void Guardar_Ingredientes(Plato Platos[], int Numero_Platos)
 
     fclose(archivo);
 }
+// Función para agregar un nuevo plato al menú
+void Agregar_Plato(Plato Platos[], int *Numero_Platos)
+{
+    char Nombre[50];
+    char Ingredientes[100];
+    float Precio;
+
+    printf("Ingrese el nombre del nuevo plato: ");
+    getchar();
+    fgets(Nombre, sizeof(Nombre), stdin);
+    Nombre[strcspn(Nombre, "\n")] = '\0';
+
+    printf("Ingrese los ingredientes del nuevo plato (separados por comas): ");
+    fgets(Ingredientes, sizeof(Ingredientes), stdin);
+    Ingredientes[strcspn(Ingredientes, "\n")] = '\0';
+
+    printf("Ingrese el precio del nuevo plato: ");
+    scanf("%f", &Precio);
+    // Agregar el nuevo plato a la estructura de datos
+    // Utilizamos strcpy para copiar el nombre y los ingredientes del nuevo plato en la estructura de datos correspondiente.
+    strcpy(Platos[*Numero_Platos].Nombre, Nombre);
+    strcpy(Platos[*Numero_Platos].Ingredientes, Ingredientes);
+    Platos[*Numero_Platos].Precio = Precio;
+    // Incrementar el contador de platos
+    (*Numero_Platos)++;
+
+    // Guardar los platos y los ingredientes en archivos
+    Guardar_Platos(Platos, *Numero_Platos);
+    Guardar_Ingredientes(Platos, *Numero_Platos);
+
+    printf("El plato ha sido agregado al menú correctamente.\n");
+}
