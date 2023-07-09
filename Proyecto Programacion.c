@@ -129,3 +129,19 @@ void Calcular_Ingredientes_Utilizados(Plato Platos[], int Numero_Platos, int Pla
 
     fclose(archivo);
 }
+void calcularRecaudacion(Plato platos[], int numPlatos, int platosVendidos[]) {
+    FILE *archivo;
+    archivo = fopen("recaudacion.txt", "w"); // Abrir archivo en modo escritura
+    
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo.\n"); // Fallo al abrir el archivo
+        return;
+    }
+    
+    for (int i = 0; i < numPlatos; i++) {
+        float recaudacion = platos[i].precio * platosVendidos[i]; // Calcular la recaudación por plato vendido
+        fprintf(archivo, "Recaudación por plato vendido de %s: %.2f\n", platos[i].nombre, recaudacion); // Escribir la recaudación en el archivo
+    }
+    
+    fclose(archivo); // Cerrar el archivo
+}
