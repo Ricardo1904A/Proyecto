@@ -129,24 +129,27 @@ void Calcular_Ingredientes_Utilizados(Plato Platos[], int Numero_Platos, int Pla
 
     fclose(archivo);
 }
-void calcularRecaudacion(Plato platos[], int numPlatos, int platosVendidos[]) {
+// Función para calcular la recaudación por plato vendido
+void Calcular_Recaudacion(Plato Platos[], int Numero_Platos, int Platos_Vendidos[]) {
     FILE *archivo;
-    archivo = fopen("recaudacion.txt", "w"); // Abrir archivo en modo escritura
+    archivo = fopen("Recaudacion.txt", "w");
     
     if (archivo == NULL) {
-        printf("No se pudo abrir el archivo.\n"); // Fallo al abrir el archivo
+        printf("No se pudo abrir el archivo.\n");
         return;
     }
     
-    for (int i = 0; i < numPlatos; i++) {
-        float recaudacion = platos[i].precio * platosVendidos[i]; // Calcular la recaudación por plato vendido
-        fprintf(archivo, "Recaudación por plato vendido de %s: %.2f\n", platos[i].nombre, recaudacion); // Escribir la recaudación en el archivo
+    // Calcular la recaudación por plato vendido y guardarla en el archivo "Recaudacion.txt"
+    for (int i = 0; i < Numero_Platos; i++) {
+        float recaudacion = Platos[i].Precio * Platos_Vendidos[i];
+        fprintf(archivo, "Recaudación por plato vendido de %s:;%0.2f;", Platos[i].Nombre, recaudacion);
     }
     
-    fclose(archivo); // Cerrar el archivo
+fclose(archivo);
 }
+
 int main() {
-    Plato platos[100] = {
+    Plato Platos[100] = {
         {"salchipapa", "2 papas, 1 salchicha", 1.50},
         {"papipollo", "2 papas, 1 presa de pollo", 2.00},
         {"hot dogs", "1 pan para hot dogs, 1 salchicha", 1.25},
@@ -155,17 +158,18 @@ int main() {
         {"papi huevo", "2 papas, 1 huevo", 1.25}
     };
     
-    int numPlatos = 6;
+    int Numero_Platos = 6;
     
-    guardarPlatos(platos, numPlatos); // Guardar los platos iniciales en el archivo
-    guardarIngredientes(platos, numPlatos); // Guardar los ingredientes iniciales en el archivo
+    Guardar_Platos(Platos, Numero_Platos);
+    Guardar_Ingredientes(Platos, Numero_Platos);
+    
     int opcion;
-    int platosVendidos[100];
+    int Platos_Vendidos[100];
     
-    printf("¡Bienvenido al Restaurante!\n");
+    printf("¡Bienvenido al Restaurante Bocado Express!\n");
     printf("Aquí está nuestra carta de platos:\n");
-    for (int i = 0; i < numPlatos; i++) {
-        printf("%d. %s - %.2f\n", i+1, platos[i].nombre, platos[i].precio);
+    for (int i = 0; i < Numero_Platos; i++) {
+        printf("%d. %s - %.2f\n", i+1, Platos[i].Nombre, Platos[i].Precio);
     }
     
     do {
@@ -176,3 +180,59 @@ int main() {
         printf("4. Salir\n");
         printf("Ingrese su opción: ");
         scanf("%d", &opcion);
+        
+        switch (opcion) {
+            case 1:
+                printf("Ingrese la cantidad de platos vendidos para cada tipo de plato:\n");
+                
+                for (int i = 0; i < Numero_Platos; i++) {
+                    printf("%s: ", Platos[i].Nombre);
+                    scanf("%d", &Platos_Vendidos[i]);
+                }
+                
+                Calcular_Ingredientes_Utilizados(Platos, Numero_Platos, Platos_Vendidos);
+                
+                printf("Se han guardado los ingredientes utilizados en el archivo 'Ingredientes_gastados.txt'\n");
+                
+                break;
+                
+            case 2:
+                printf("Ingrese la cantidad de platos vendidos para cada tipo de plato:\n");
+                
+                for (int i = 0; i < Numero_Platos; i++) {
+                    printf("%s: ", Platos[i].Nombre);
+                    scanf("%d", &Platos_Vendidos[i]);
+                }
+                
+                Calcular_Recaudacion(Platos, Numero_Platos, Platos_Vendidos);
+                
+                printf("Se ha guardado la recaudación por plato vendido en el archivo 'Recaudacion.txt'\n");
+                
+                break;
+                
+            case 3:
+                printf("\n");
+                printf("== Agregar un nuevo plato ==\n");
+                Agregar_Plato(Platos, &Numero_Platos);
+                
+                printf("Aquí está nuestra nueva carta de platos:\n");
+                for (int i = 0; i < Numero_Platos; i++) {
+                    printf("%d. %s - %.2f\n", i+1, Platos[i].Nombre, Platos[i].Precio);
+                }
+                
+                break;
+                
+            case 4:
+                printf("¡Gracias por visitarnos! ¡Hasta luego!\n");
+                break;
+                
+            default:
+                printf("Opción inválida. Por favor, ingrese una opción válida.\n");
+                break;
+        }
+        
+        
+    } while (opcion != 4);
+    
+    return 0;
+}
